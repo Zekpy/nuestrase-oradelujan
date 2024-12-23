@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import RegistroForm
-
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from .forms import ActualizarPerfilForm
 # Vista de Registro
 def registro(request):
     # Verifica si el método de la solicitud es POST (cuando el usuario envía el formulario)
@@ -27,11 +29,39 @@ def registro(request):
     return render(request, 'autenticacion/registro.html', {'form': form})
 
 # Vista de Inicio de Sesión
+
 def iniciar_sesion(request):
-    # Renderiza la plantilla de inicio de sesión (sin datos adicionales)
+    if request.method == "POST":
+        usuario = request.POST.get('username')  # Cambiado de 'username' a 'usuario'
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=usuario, password=password)  # username aquí se refiere al campo del modelo
+        if user is not None:
+            login(request, user)
+            messages.success(request, "Inicio de sesión exitoso.")
+            return redirect('perfil_usuario')  # Redirige a la página de inicio
+        else:
+            messages.error(request, "Usuario o contraseña incorrectos.")
+            return render(request, 'autenticacion/iniciar_sesion.html')
+
     return render(request, 'autenticacion/iniciar_sesion.html')
 
-# Vista de Inicio (Página principal)
-def inicio(request):
-    # Renderiza la plantilla 'index.html' como la página de inicio o la página principal
-    return render(request, 'autenticacion/index.html')
+
+
+@login_required
+def perfil(request):
+    usuario = request.user  # Obtiene el usuario autenticado
+    if request.method == 'POST':
+        form = ActualizarPerfilForm(request.POST, request.FILES, instance=usuario)
+        if form.is_valid():
+            form.save()  # Guarda los datos del formulario
+            return redirect('perfil_usuario')  # Redirige a la misma página después de guardar los cambios
+    else:
+        form = ActualizarPerfilForm(instance=usuario)  # Carga el formulario con los datos del usuario
+
+    return render(request, 'autenticacion/perfil_usuario.html', {'usuario': usuario, 'form': form})
+
+
+
+def inicio (request):
+     return render(request, 'autenticacion/index.html')

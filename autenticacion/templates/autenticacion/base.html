@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mi Sitio{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+
+    <!-- Barra de navegación -->
+    <div class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="logo">Mi Sitio</a>
+            
+            <!-- Botón para el menú en dispositivos pequeños -->
+            <div class="menu-toggle" id="menu-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            
+            <!-- Menú de navegación -->
+            <ul class="nav-links" id="nav-links">
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/perfil/">Perfil</a></li>
+
+                <!-- Mostrar el botón de cerrar sesión solo si el usuario está autenticado -->
+                {% if user.is_authenticated %}
+                    <li>
+                        <form action="{% url 'logout' %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit">Cerrar Sesión</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <!-- Mostrar enlace de inicio de sesión si el usuario no está autenticado -->
+                    <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Contenido dinámico -->
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Cargar el archivo JS -->
+    <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+{% extends './base.html' %}
+
+
+{% block content %}
+<div class="container">
+    <div class="perfil-container">
+        <h1 class="heading">Perfil del Usuario</h1>
+        <h2>Bienvenido, {{ usuario.nombre_completo }}</h2>
+        <img src="{{ usuario.foto_perfil.url }}" alt="Foto de perfil" width="150">
+        <p><strong>Username:</strong> {{ usuario.username }}</p>
+        <p><strong>Email:</strong> {{ usuario.email }}</p>
+        <p><strong>Celular:</strong> {{ usuario.celular }}</p>
+        <p><strong>Rol:</strong> {{ usuario.rol }}</p>
+    </div>
+
+    <div class="form-container">
+        <h2 class="heading">Actualizar Perfil</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="login-button">Actualizar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

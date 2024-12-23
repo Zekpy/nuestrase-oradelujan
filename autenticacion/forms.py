@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from .models import Usuario
+from django.contrib.auth.forms import UserChangeForm
 
 # Formulario para el registro de nuevos usuarios
 class RegistroForm(UserCreationForm):
@@ -63,3 +64,20 @@ class RegistroForm(UserCreationForm):
         # Los campos 'username', 'nombre_completo', 'email', 'celular', 'foto_perfil', 'rol', 'password1' y 'password2' 
         # son los campos que estarán disponibles en el formulario de registro.
         fields = ('username', 'nombre_completo', 'email', 'celular', 'foto_perfil', 'rol', 'password1', 'password2')
+
+
+
+
+class ActualizarPerfilForm(UserChangeForm):
+    password = None  # Ocultar el campo de contraseña
+
+    class Meta:
+        model = Usuario  # Tu modelo de usuario
+        fields = ('username', 'nombre_completo', 'email', 'celular', 'foto_perfil')  # Campos a editar
+        widgets = {
+            'foto_perfil': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'nombre_completo': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'celular': forms.TextInput(attrs={'class': 'form-control'}),
+        }
