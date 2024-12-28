@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center">Bienvenido, {{ user.username }}</h1>
+    
+    {% if user.groups.all %}
+        <p class="text-center">Tu rol es: 
+            {% for group in user.groups.all %}
+                {{ group.name }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+    {% else %}
+        <p class="text-center">No tienes un rol asignado actualmente.</p>
+    {% endif %}
+</div>
+{% endblock %}
+

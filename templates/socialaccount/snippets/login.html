@@ -1,0 +1,26 @@
+{% load i18n %}
+{% load allauth %}
+{% load socialaccount %}
+{% get_providers as socialaccount_providers %}
+
+<div class="social-login">
+    {% if socialaccount_providers %}
+        {% if not SOCIALACCOUNT_ONLY %}
+            <hr>
+            <h2>{% translate "Or use a third-party" %}</h2>
+        {% endif %}
+        {% for provider in socialaccount_providers %}
+    {% if provider.id == 'google' %}
+        <a href="{% provider_login_url provider.id %}" class="btn btn-primary">
+            <i class="fab fa-google"></i> <!-- Ícono de Google -->
+            Iniciar sesión con Google
+        </a>
+    {% else %}
+        <a href="{% provider_login_url provider.id %}" class="btn btn-primary">
+            {{ provider.name }}
+        </a>
+    {% endif %}
+{% endfor %}
+
+    {% endif %}
+</div>

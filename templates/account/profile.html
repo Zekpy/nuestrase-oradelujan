@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col-md-6 mx-auto">
+  <h2>Perfil de Usuario</h2>
+  <h3>Bienvenido, {{ user.get_full_name }}</h3>
+  <ul class="list-group mt-3">
+    <li class="list-group-item"><strong>Nombre de Usuario:</strong> {{ user.username }}</li>
+    <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+    <li class="list-group-item"><strong>Nombre Completo:</strong> {{ user.first_name }} {{ user.last_name }}</li>
+    <li class="list-group-item"><strong>Fecha de Registro:</strong> {{ user.date_joined|date:"d/m/Y H:i" }}</li>
+    <li class="list-group-item"><strong>Último Inicio de Sesión:</strong> {{ user.last_login|date:"d/m/Y H:i" }}</li>
+    <li class="list-group-item">
+      {% if user.groups.count > 0 %}
+        <h1>Rol de Usuario:</h1>
+        <ul>
+          {% for group in user.groups.all %}
+            <li>{{ group.name }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No tienes un rol asignado.</p>
+      {% endif %}
+    </li>
+    {% if 'Alumnos' in group_names %}
+    {% include 'inicio/dashboard_alumno.html' %}
+{% elif 'Instructores' in group_names %}
+    {% include 'inicio/dashboard_instructor.html' %}
+{% elif 'Directivo' in group_names %}
+    {% include 'inicio/dashboard_directivo.html' %}
+{% else %}
+    <p>No se encontró una plantilla para tu rol.</p>
+{% endif %}
+  </ul>
+
+
+</div>
+{% endblock %}

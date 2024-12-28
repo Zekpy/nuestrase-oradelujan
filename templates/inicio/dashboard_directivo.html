@@ -1,0 +1,23 @@
+
+
+{% block content %}
+<div class="container">
+    <h1>Bienvenido, {{ user.username }}</h1>
+    <h3 class="mt-4">Cursos Creado por Instructores</h3>
+    <ul class="list-group">
+        {% for curso in cursos %}
+            <li class="list-group-item">
+                <h5>{{ curso.nombre }}</h5>
+                <p>{{ curso.descripcion }}</p>
+                <ul>
+                    {% for modulo in curso.modulos.all %}
+                        <li>{{ modulo.nombre }} - {{ modulo.duracion }} horas</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No hay cursos disponibles.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

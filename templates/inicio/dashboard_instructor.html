@@ -1,0 +1,26 @@
+
+
+{% block content %}
+<div class="container">
+    <h1>Bienvenido, {{ user.username }}</h1>
+    <p>Accede al formulario para crear un nuevo curso:</p>
+    <a href="{% url 'crear_curso' %}" class="btn btn-success">Crear Curso</a>
+
+    <h3 class="mt-4">Tus Cursos</h3>
+    <ul class="list-group">
+        {% for curso in user.cursos.all %}
+            <li class="list-group-item">
+                <h5>{{ curso.nombre }}</h5>
+                <p>{{ curso.descripcion }}</p>
+                <ul>
+                    {% for modulo in curso.modulos.all %}
+                        <li>{{ modulo.nombre }} - {{ modulo.horas }} horas</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No has creado ningún curso aún.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

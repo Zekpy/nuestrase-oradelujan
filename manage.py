@@ -6,7 +6,11 @@ import sys
 
 def main():
     """Run administrative tasks."""
+<<<<<<< HEAD
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'plataforma.settings')
+=======
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cfp425.settings')
+>>>>>>> d1c9a86 (Inicio de sesin con google listo, registro de estudiantes, creacion de cursos de instructores)
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

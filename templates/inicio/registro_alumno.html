@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Formulario de Registro</h2>
+    <form method="post" class="row g-3">
+        {% csrf_token %}
+        
+        <div class="col-md-6">
+            <label for="id_dni" class="form-label">DNI</label>
+            {{ form.dni }}
+        </div>
+        
+        <div class="col-md-6">
+            <label for="id_cuil" class="form-label">CUIL</label>
+            {{ form.cuil }}
+        </div>
+
+        <div class="col-md-6">
+            <label for="id_nombre" class="form-label">Nombre</label>
+            {{ form.nombre }}
+        </div>
+
+        <div class="col-md-6">
+            <label for="id_apellido" class="form-label">Apellido</label>
+            {{ form.apellido }}
+        </div>
+
+        <div class="col-md-6">
+            <label for="id_celular_1" class="form-label">Celular 1</label>
+            {{ form.celular_1 }}
+        </div>
+
+        <div class="col-md-6">
+            <label for="id_celular_2" class="form-label">Celular 2</label>
+            {{ form.celular_2 }}
+        </div>
+
+        <div class="col-md-12">
+            <label for="id_email" class="form-label">Email</label>
+            {{ form.email }}
+        </div>
+
+        <div class="col-md-12">
+            <label for="id_foto_dni_frente" class="form-label">Foto del DNI (Frente)</label>
+            {{ form.foto_dni_frente }}
+        </div>
+
+        <div class="col-md-12">
+            <label for="id_foto_dni_reversa" class="form-label">Foto del DNI (Reversa)</label>
+            {{ form.foto_dni_reversa }}
+        </div>
+
+        <div class="col-md-12">
+            <label for="id_estudios_maximos" class="form-label">Estudios Máximos</label>
+            {{ form.estudios_maximos }}
+        </div>
+
+        <div class="col-md-12">
+            <label for="id_curso" class="form-label">Curso</label>
+            {{ form.curso }}
+        </div>
+
+        <div class="col-md-12 text-center">
+            <button type="submit" class="btn btn-primary">Registrar</button>
+        </div>
+
+        {% if form.errors %}
+            <div class="col-md-12 mt-3">
+                <ul class="alert alert-danger">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}
